@@ -1,0 +1,21 @@
+{
+    "name": "issac_gpu_container",
+    "dockerFile": "Dockerfile",
+
+    "mounts": [
+        "source=C:/,target=/host/c,type=bind,consistency=cached",
+        "source=D:/,target=/host/d,type=bind,consistency=cached"
+    ],
+
+    "runArgs": [
+        "--gpus=all"
+    ],
+
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "terminal.integrated.defaultProfile.linux": "bash"
+            }
+        }
+    }
+}
