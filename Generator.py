@@ -462,8 +462,13 @@ class PatchCascadeDataset(Dataset):
     def _case_id_from_folder(self, image_folder):
         folder = image_folder.rstrip("/\\")
         base = os.path.basename(folder)
-        parent = os.path.basename(os.path.dirname(folder))
-        return parent if base.lower() in ["cropped_image", "cropped", "images", "image", "img"] else base
+        if base.lower() in ["cropped_image", "cropped", "images", "image", "img"]:
+            case_id = os.path.basename(os.path.dirname(folder))
+            dataset_id = os.path.basename(os.path.dirname(os.path.dirname(folder)))
+        else:
+            case_id = base
+            dataset_id = os.path.basename(os.path.dirname(folder))
+        return f"{dataset_id}_{case_id}"
 
     def _resolve_warped_path(self, image_folder, tf_index):
         case_id = self._case_id_from_folder(image_folder)
