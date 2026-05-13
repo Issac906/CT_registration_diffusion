@@ -554,18 +554,19 @@ class PatchCascadeDataset(Dataset):
         fixed_patch = np.expand_dims(fixed_patch, axis=0).astype(np.float32)
         metadata = {
             "case_id": case_id,
-            "fixed_tf": fixed_tf,
-            "moving_tf": moving_tf,
-            "patch_index": patch_index,
+            "fixed_tf": int(fixed_tf),
+            "moving_tf": int(moving_tf),
+            "patch_index": int(patch_index),
             "coarse_path": coarse_path,
             "fixed_path": fixed_path,
-            "patch_start": patch_record.start,
-            "patch_end": patch_record.end,
-            "patch_center": patch_record.center,
-            "valid_slices": patch_record.valid_slices,
-            "volume_shape": patch_record.volume_shape,
-            "patch_size": patch_record.patch_size,
+            "patch_start": list(patch_record.start),
+            "patch_end": list(patch_record.end),
+            "patch_center": list(patch_record.center),
+            "valid_slices": [[s.start, s.stop] for s in patch_record.valid_slices],
+            "volume_shape": list(patch_record.volume_shape),
+            "patch_size": list(patch_record.patch_size),
         }
+
         return coarse_patch, fixed_patch, metadata
 
     def on_epoch_end(self):
